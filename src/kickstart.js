@@ -1,13 +1,14 @@
 'use strict';
 
+const os = require('os');
 const fs = require('fs-extra');
 const program = require('commander');
 const inquirer = require('inquirer');
 const gitclone = require('gitclone');
 const path = require('path');
-const userHome = require('user-home');
 const chalk = require('chalk');
 const ora = require('ora');
+
 const log = console.log;
 
 let repoList = null;
@@ -35,7 +36,7 @@ else {
 // repositories in the user's home directory
 
 function createStore() {
-    const kickstartDir = path.join(userHome, '.kickstart');
+    const kickstartDir = path.join(os.homedir(), '.kickstart');
     const kickstartFile = path.join(kickstartDir, 'repoList.json');   
     fs.ensureFileSync(kickstartFile);
     
