@@ -83,7 +83,7 @@ let cloneRepo = (() => {
             if (err) {
                 log(chalk.red('There was an error while cloning the repository.'));
             } else {
-                log(chalk.green("  Successfully cloned"));
+                log(logSymbols.success, "Successfully cloned", answers.repo_to_clone);
             }
         });
     });
@@ -106,6 +106,7 @@ const gitclone = require('gitclone');
 const path = require('path');
 const chalk = require('chalk');
 const ora = require('ora');
+const logSymbols = require('log-symbols');
 
 const log = console.log;
 
