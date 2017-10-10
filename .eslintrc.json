@@ -1,0 +1,14 @@
+{
+    "parserOptions": {
+        "ecmaVersion": 2017
+    },
+    "env": {
+        "node": true
+    },
+    "rules": {
+        "semi": ["error", "always"],
+        "no-unused-vars": "error",
+        "indent": ["error", 4],
+        "no-multiple-empty-lines": ["error", { "max": 2 }]
+    }
+}

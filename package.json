@@ -1,0 +1,35 @@
+{
+  "name": "kickstart",
+  "version": "1.0.0",
+  "description": "Clone your favorite starter kits with just one command",
+  "main": "bin/index.js",
+  "scripts": {
+    "build": "babel src/kickstart.js -o bin/index.js",
+    "test": "exit 0"
+  },
+  "keywords": [
+    "StarterKit"
+  ],
+  "bugs": {
+    "url": ""
+  },
+  "author": "Jeril Sebastian",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^2.1.0",
+    "commander": "^2.11.0",
+    "fs-extra": "^4.0.2",
+    "gitclone": "^2.0.0",
+    "inquirer": "^3.3.0",
+    "ora": "^1.3.0",
+    "user-home": "^2.0.0"
+  },
+  "bin": {
+    "kickstart": "index.js"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "eslint": "^4.8.0"
+  }
+}
