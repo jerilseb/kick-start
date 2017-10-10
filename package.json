@@ -1,10 +1,10 @@
 {
-  "name": "kickstart",
+  "name": "kick-start",
   "version": "1.0.0",
   "description": "Clone your favorite starter kits with just one command",
   "main": "bin/index.js",
   "repository": {
-    "url": "https://github.com/jerilseb/kickstart.git"
+    "url": "https://github.com/jerilseb/kick-start.git"
   },
   "scripts": {
     "build": "babel src/kickstart.js -o bin/index.js",
