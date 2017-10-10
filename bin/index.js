@@ -18,7 +18,7 @@ let addRepo = (() => {
         if (getRepoName(answers.repo_name) !== undefined) {
             log(chalk.red('Name already exists. Try a differnt name?'));
         } else {
-            repoList.push({
+            repoList.repos.push({
                 name: answers.repo_name,
                 url: answers.repo_url
             });
@@ -37,7 +37,7 @@ let addRepo = (() => {
 let removeRepo = (() => {
     var _ref2 = _asyncToGenerator(function* () {
         var repo_choices_to_remove = [];
-        repoList.forEach(function (item) {
+        repoList.repos.forEach(function (item) {
             repo_choices_to_remove.push({
                 name: item.name
             });
@@ -64,7 +64,7 @@ let removeRepo = (() => {
 let cloneRepo = (() => {
     var _ref3 = _asyncToGenerator(function* () {
         var repo_choices = [];
-        repoList.forEach(function (item) {
+        repoList.repos.forEach(function (item) {
             repo_choices.push(item.name);
         });
 
@@ -106,8 +106,6 @@ const gitclone = require('gitclone');
 const path = require('path');
 const chalk = require('chalk');
 const ora = require('ora');
-const Conf = require('conf');
-const config = new Conf('kickstart');
 
 const log = console.log;
 
@@ -117,7 +115,7 @@ createStore();
 program.version('1.0.0').option('-a, --add', 'Add a repository').option('-r, --remove', 'Remove a repository').parse(process.argv);
 
 if (program.add) addRepo();else if (program.remove) removeRepo();else {
-    if (repoList.length == 0) {
+    if (repoList === null || repoList.repos.length === 0) {
         log(chalk.cyan("No starter kits available. Use the -a option to add a new one"));
     } else {
         cloneRepo();
@@ -128,30 +126,24 @@ if (program.add) addRepo();else if (program.remove) removeRepo();else {
 // repositories in the user's home directory
 
 function createStore() {
-    repoList = config.get('repo_list');
-    if (!repoList) {
-        repoList = [];
-        config.set('repo_list');
+    const kickstartDir = path.join(os.homedir(), '.kickstart');
+    const kickstartFile = path.join(kickstartDir, 'repoList.json');
+    fs.ensureFileSync(kickstartFile);
+
+    repoList = fs.readJsonSync(kickstartFile, { throws: false });
+    if (repoList === null) {
+        repoList = {
+            repos: []
+        };
+        fs.writeFileSync(kickstartFile, JSON.stringify(repoList));
     }
-
-    // const kickstartDir = path.join(os.homedir(), '.kickstart');
-    // const kickstartFile = path.join(kickstartDir, 'repoList.json');   
-    // fs.ensureFileSync(kickstartFile);
-
-    // repoList = fs.readJsonSync(kickstartFile, { throws: false });
-    // if (repoList === null) {
-    //     repoList = {
-    //         repos: []
-    //     };
-    //     fs.writeFileSync(kickstartFile, JSON.stringify(repoList));
-    // }
 }function getRepoName(repoName) {
-    return repoList.find(_repo => _repo.name == repoName);
+    return repoList.repos.find(_repo => _repo.name == repoName);
 }
 
 // Remove a repository from the JSON file
 
 function removeRepoByName(repoName) {
-    let index = repoList.findIndex(_repo => _repo.name == repoName);
-    repoList.splice(index, 1);
+    let index = repoList.repos.findIndex(_repo => _repo.name == repoName);
+    repoList.repos.splice(index, 1);
 }
