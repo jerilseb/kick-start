@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Clone your favorite starter kits with just one command",
   "main": "bin/index.js",
+  "repository": {
+    "url": "https://github.com/jerilseb/kickstart.git"
+  },
   "scripts": {
     "build": "babel src/kickstart.js -o bin/index.js",
     "test": "exit 0"
@@ -10,9 +13,6 @@
   "keywords": [
     "StarterKit"
   ],
-  "bugs": {
-    "url": ""
-  },
   "author": "Jeril Sebastian",
   "license": "MIT",
   "dependencies": {
