@@ -2,7 +2,9 @@
   "name": "kick-start",
   "version": "1.0.0",
   "description": "Clone your favorite starter kits with just one command",
-  "main": "bin/index.js",
+  "bin": {
+    "kick": "./bin/index.js"
+  },
   "repository": {
     "url": "https://github.com/jerilseb/kick-start.git"
   },
@@ -22,9 +24,6 @@
     "gitclone": "^2.0.0",
     "inquirer": "^3.3.0",
     "ora": "^1.3.0"
-  },
-  "bin": {
-    "kickstart": "index.js"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
