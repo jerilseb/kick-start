@@ -1,6 +1,6 @@
 {
   "name": "kick-start",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Clone your favorite starter kits with just one command",
   "bin": {
     "kick": "./bin/index.js"

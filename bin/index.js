@@ -16,7 +16,7 @@ let addRepo = (() => {
         }]);
 
         if (getRepoName(answers.repo_name) !== undefined) {
-            log(chalk.red("Name '" + answers.repo_name + "' already exists."));
+            log(chalk.red("Name '" + answers.repo_name + "' already exists"));
         } else {
             repoList.repos.push({
                 name: answers.repo_name,
@@ -46,7 +46,7 @@ let removeRepo = (() => {
         let answers = yield inquirer.prompt([{
             type: 'checkbox',
             name: 'repos_to_remove',
-            message: 'Select the starter kits to remove.',
+            message: 'Select the starter kits to remove',
             choices: repo_choices_to_remove
         }]);
 
@@ -71,7 +71,7 @@ let cloneRepo = (() => {
         let answers = yield inquirer.prompt([{
             type: 'list',
             name: 'repo_to_clone',
-            message: 'Choose a starter kit to clone.',
+            message: 'Choose a starter kit to clone',
             choices: repo_choices
         }]);
 
@@ -81,7 +81,7 @@ let cloneRepo = (() => {
         gitclone(gitUrl, function (err) {
             spinner.stop();
             if (err) {
-                log(chalk.red('There was an error while cloning the repository.'));
+                log(chalk.red('There was an error while cloning the repository'));
             } else {
                 log(chalk.green("√ Successfully cloned", answers.repo_to_clone));
             }
