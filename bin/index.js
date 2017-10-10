@@ -16,7 +16,7 @@ let addRepo = (() => {
         }]);
 
         if (getRepoName(answers.repo_name) !== undefined) {
-            log(chalk.red('Name already exists. Try a differnt name?'));
+            log(chalk.red("Name '" + answers.repo_name + "' already exists."));
         } else {
             repoList.repos.push({
                 name: answers.repo_name,
@@ -83,7 +83,7 @@ let cloneRepo = (() => {
             if (err) {
                 log(chalk.red('There was an error while cloning the repository.'));
             } else {
-                log(logSymbols.success, "Successfully cloned", answers.repo_to_clone);
+                log(chalk.green("√ Successfully cloned", answers.repo_to_clone));
             }
         });
     });
@@ -106,7 +106,6 @@ const gitclone = require('gitclone');
 const path = require('path');
 const chalk = require('chalk');
 const ora = require('ora');
-const logSymbols = require('log-symbols');
 
 const log = console.log;
 
