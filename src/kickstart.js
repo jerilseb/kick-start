@@ -6,10 +6,10 @@ const os = require("os");
 const fs = require("fs-extra");
 const program = require("commander");
 const inquirer = require("inquirer");
-const gitclone = require("gitclone");
 const path = require("path");
 const chalk = require("chalk");
 const ora = require("ora");
+const git = require("simple-git/promise");
 
 const log = console.log;
 
@@ -77,7 +77,7 @@ async function addRepo() {
   } else {
     repoList.repos.push({
       name: answers.repo_name,
-      url: answers.repo_url
+      url: answers.repo_url.replace(".git", "")
     });
     fs.writeFileSync(kickstartFile, JSON.stringify(repoList));
   }
@@ -105,10 +105,10 @@ async function removeRepo() {
 
   removeRepoByName(answers.repos_to_remove);
   fs.writeFileSync(kickstartFile, JSON.stringify(repoList));
-  log(chalk.green("√ Successfully removed", answers.repos_to_remove));
+  log(chalk.green("√ Successfully removed the selected repositories"));
 }
 
-// Selec the repository from the console and clone it
+// Select the repository from the console and clone it
 
 async function cloneRepo() {
   var repo_choices = [];
@@ -116,7 +116,7 @@ async function cloneRepo() {
     repo_choices.push(item.name);
   });
 
-  let answers = await inquirer.prompt([
+  let answer1 = await inquirer.prompt([
     {
       type: "list",
       name: "repo_to_clone",
@@ -125,17 +125,36 @@ async function cloneRepo() {
     }
   ]);
 
-  const gitUrl = getRepoName(answers.repo_to_clone).url;
-  const spinner = new ora({ text: "Cloning " + answers.repo_to_clone }).start();
+  const gitUrl = getRepoName(answer1.repo_to_clone).url;
+  const repoName = gitUrl.substr(gitUrl.lastIndexOf("/") + 1);
 
-  gitclone(gitUrl, err => {
-    spinner.stop();
-    if (err) {
-      log(chalk.red("There was an error while cloning the repository"));
-    } else {
-      log(chalk.green("√ Successfully cloned", answers.repo_to_clone));
+  let answer2 = await inquirer.prompt([
+    {
+      type: "input",
+      name: "project_name",
+      message: `Name of your project? (${repoName}) :`
     }
-  });
+  ]);
+
+  let projectName = answer2.project_name || repoName;
+  const spinner = new ora({ text: "Cloning " + repoName }).start();
+
+  git(os.tmpdir())
+    .silent(true)
+    .clone(gitUrl)
+    .then(() => {
+      spinner.stop();
+      fs.moveSync(path.join(os.tmpdir(), repoName), projectName);
+      log(chalk.green("√ Successfully cloned to", projectName));
+    })
+    .catch(err => {
+      spinner.stop();
+      log(
+        chalk.red(
+          `Couldn't clone the repository. Make sure a directory by the name ${repoName} doesn't already exist`
+        )
+      );
+    });
 }
 
 // Check if the repository is already added to the JSON file.
