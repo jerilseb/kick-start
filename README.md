@@ -11,6 +11,8 @@
 </p>
 
 ## Why?
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/jerilseb/kick-start.svg)](https://greenkeeper.io/)
 Certain starter kits I use again and again. But it's a hasle to keep them bookmarked, to find them when required and then clone to a directory.
 
 **Kickstart** will remember them and clone to the desired directory for you with a single command. Though kickstart is all about remembering a git repo and cloning it to a directory, use it for anything you like.
